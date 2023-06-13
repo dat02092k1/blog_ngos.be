@@ -3,6 +3,7 @@ var img = require('../service/imageHandle.js');
 
 const User = db.users
 
+const Post = db.posts
 // functions
   
 //1. Add user
@@ -129,10 +130,30 @@ const deleteUser = async (req, res) => {
     }
 }
 
+const getUserPosts = async (req, res) => {
+    try {
+        const id = req.params.id
+ 
+        const posts = await User.findOne({
+        include: [{
+            model: Post,
+            as: 'post'
+        }],
+        where: { id: id }
+    }) 
+
+    res.status(200).json(posts)
+
+    } catch (error) {
+        res.status(500).json({ error: 'internal server error' });
+    }
+}
+
 module.exports = {
     registerUser,
     getUsers,
     getDetailsUser, 
     editUser, 
-    deleteUser
+    deleteUser,
+    getUserPosts  
 }

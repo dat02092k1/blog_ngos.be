@@ -8,5 +8,6 @@ router.post('/create/:id', post.addPost);
 router.get('/get-all', post.getPosts); 
 router.get('/get-details/:id', post.getDetailsPost); 
 router.put('/edit/:id', post.editPost); 
+router.delete('/delete/:id', post.deletePost); 
 
 module.exports = router;       

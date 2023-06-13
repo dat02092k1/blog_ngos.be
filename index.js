@@ -15,11 +15,13 @@ const router = require('./routes/product.js');
 const user = require('./routes/user.js');
 const upload = require('./routes/upload.js');
 const post = require('./routes/post.js');
+const comment = require('./routes/comment.js');
 
 app.use('/api/product', router);
 app.use('/api/user', user);
 app.use('/api/img', upload);
 app.use('/api/post', post);
+app.use('/api/comment', comment);
 
 // middleware
  

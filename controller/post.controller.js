@@ -91,8 +91,29 @@ const editPost = async (req, res) => {
     }
 }
 
-// 5. Delete user
+// 5. Delete post
+const deletePost = async (req, res) => { 
+    const { id } = req.params;
+                                
+    try {        
+        const post = await Post.findByPk(id);
+          
+        if (!post) {
+            return res.status(404).json('cant find post');
+        }
+        
+        if((post.public_id)) {
+        img.deleteImageFromCloudinary(post.public_id);
+        } 
+
+        await post.destroy();
+
+        res.status(200).json('delete post successfully');
+    } catch (error) {
+        res.status(500).json({ error: 'Error deleting post' });
+    }
+}
 
 module.exports = {
-    addPost, getPosts, getDetailsPost, editPost
+    addPost, getPosts, getDetailsPost, editPost, deletePost
 }
