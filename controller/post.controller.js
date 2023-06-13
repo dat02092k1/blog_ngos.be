@@ -2,6 +2,7 @@ const db = require('../models')
 var img = require('../service/imageHandle.js');     
 
 const Post = db.posts
+const Comment = db.comments
 
 // functions
   
@@ -114,6 +115,26 @@ const deletePost = async (req, res) => {
     }
 }
 
+// 6. comments in the post
+const getCommentsPost = async (req, res) => {
+    try {
+        const id = req.params.id
+        console.log(id);
+        
+        const comments = await Post.findOne({
+        include: [{
+            model: Comment,
+            as: 'comment'
+        }],
+        where: { id: id }
+    }) 
+
+    res.status(200).json(comments)
+
+    } catch (error) {
+        res.status(500).json({ error: 'internal server error' });
+    }
+}
 module.exports = {
-    addPost, getPosts, getDetailsPost, editPost, deletePost
+    addPost, getPosts, getDetailsPost, editPost, deletePost, getCommentsPost
 }

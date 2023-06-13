@@ -130,6 +130,7 @@ const deleteUser = async (req, res) => {
     }
 }
 
+// 6. user's posts
 const getUserPosts = async (req, res) => {
     try {
         const id = req.params.id

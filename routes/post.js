@@ -9,5 +9,6 @@ router.get('/get-all', post.getPosts);
 router.get('/get-details/:id', post.getDetailsPost); 
 router.put('/edit/:id', post.editPost); 
 router.delete('/delete/:id', post.deletePost); 
+router.get('/get-comments/:id', post.getCommentsPost); 
 
-module.exports = router;       
+module.exports = router;               

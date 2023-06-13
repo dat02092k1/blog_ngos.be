@@ -75,7 +75,7 @@ db.comments.belongsTo(db.users, {
 
 db.posts.hasMany(db.comments, {
     foreignKey: 'post_id',
-    as: 'comments'
+    as: 'comment'
 });
 
 db.comments.belongsTo(db.posts, {
