@@ -36,7 +36,8 @@ db.products = require('./productModel.js')(sequelize, DataTypes)
 db.reviews = require('./reviewModel.js')(sequelize, DataTypes)
 db.users = require('./userModel.js')(sequelize, DataTypes)
 db.posts = require('./postModel.js')(sequelize, DataTypes)
-
+db.comments = require('./commentModel.js')(sequelize, DataTypes);
+        
 db.sequelize.sync({ force: false})
 .then(() => {
     console.log('yes re-sync done')
@@ -61,5 +62,25 @@ db.posts.belongsTo(db.users, {
     foreignKey: 'user_id',
     as: 'user'
 })
+
+db.users.hasMany(db.comments, {
+    foreignKey: 'user_id',
+    as: 'comments'
+});
+
+db.comments.belongsTo(db.users, {
+    foreignKey: 'user_id',
+    as: 'user'
+});
+
+db.posts.hasMany(db.comments, {
+    foreignKey: 'post_id',
+    as: 'comments'
+});
+
+db.comments.belongsTo(db.posts, {
+    foreignKey: 'post_id',
+    as: 'post'
+});
 
 module.exports = db

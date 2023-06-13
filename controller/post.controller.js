@@ -27,18 +27,72 @@ const addPost = async (req, res) => {
 }          
 
 
-// 2. Get All users
- 
+// 2. Get All posts
+const getPosts = async (req, res) => { 
+    try {
+        const posts = await Post.findAll(); 
 
+        res.status(200).json(posts);
 
-// 3. Get details user
+    } catch (error) {
+        res.status(500).json({ error: 'Error find posts' });
+    }
+}
 
+// 3. Get details post 
+const getDetailsPost = async (req, res) => { 
+    try {
+        const post = await Post.findByPk(req.params.id);
+        if (!post) return res.status(404).json('post not found');
 
-// 4. Edit user
+        res.status(200).json(post);
 
+    } catch (error) {
+        res.status(500).json({ error: 'Error find posts' });
+    }
+}
+
+// 4. Edit post
+const editPost = async (req, res) => {
+    const { id } = req.params;
+    const { title, content, imageUrl, public_id } = req.body; 
+    try {
+         
+        if (!id) {
+            return res.status(400).json('Post ID is missing');
+        }
+         
+        const post = await Post.findByPk(id);
+         
+        if (!post) {
+            return res.status(404).json('cant find post');
+        }
+        console.log(post.imageUrl);
+
+        if (imageUrl !== post.imageUrl && imageUrl !== undefined && post.imageUrl !== null) {
+            if (post.public_id) {
+                img.deleteImageFromCloudinary(post.public_id);
+            }
+            
+                /// !imgUrl => !public_id or imgUrl !== 
+                /// => !public_id or public_id !==            
+        }
+             await post.update({
+                title, 
+                content,
+                imageUrl, 
+                public_id
+            })
+
+            res.status(200).json(post);
+
+    } catch (error) {
+        res.status(500).json({ error: 'Cant find post' });
+    }
+}
 
 // 5. Delete user
 
 module.exports = {
-    addPost
+    addPost, getPosts, getDetailsPost, editPost
 }
