@@ -52,15 +52,13 @@ const editComment = async (req, res) => {
         const { id } = req.params;
         const { content } = req.body; 
          
-        if (!id) {
-            return res.status(400).json('comment ID is missing');
-        }
-         
         const comment = await Comment.findByPk(id);
          
         if (!comment) {
             return res.status(404).json('cant find comment');
         }
+
+        validateUser(req, res, comment.user_id);
 
         comment.content = content;
         await comment.save();
@@ -84,6 +82,8 @@ const deleteComment = async (req, res) => {
             return res.status(404).json({ error: 'Comment not found' });
         }
 
+        validateUser(req, res, comment.user_id);
+
         await comment.destroy();
 
         res.status(200).json('Delete succeffuly');
@@ -91,6 +91,12 @@ const deleteComment = async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Cant find comment ' + error });
     }
+}
+
+const validateUser = (req, res, user_id) => {
+    if (user_id !== req.user.id) {
+        return res.status(403).json({ error: 'You are not authorized to take this action' });
+      }
 }
 
 module.exports = {
