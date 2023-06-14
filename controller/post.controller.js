@@ -120,7 +120,7 @@ const getCommentsPost = async (req, res) => {
     try {
         const id = req.params.id
         console.log(id);
-        
+
         const comments = await Post.findOne({
         include: [{
             model: Comment,

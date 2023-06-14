@@ -1,6 +1,7 @@
 const db = require('../models')
 var img = require('../service/imageHandle.js');     
-
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const User = db.users
 
 const Post = db.posts
@@ -11,10 +12,12 @@ const Post = db.posts
 const registerUser = async (req, res) => { 
     const { username, password, role, avatarUrl, public_id } = req.body;
     try {
-        console.log(username, password, role, avatarUrl, public_id);
+        const salt = await bcrypt.genSalt(10);
+        const hashedPw = await bcrypt.hash(req.body.password, salt);
+
         const user = await User.create({
             username,     
-            password,
+            password: hashedPw, 
             role,
             avatarUrl,
             avt_publicId: public_id
