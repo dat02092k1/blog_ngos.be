@@ -1,5 +1,6 @@
 const db = require('../models')
 var img = require('../service/imageHandle.js');     
+const { validateUser } = require('../helpers/validateUser.js');     
 
 const Post = db.posts
 const Comment = db.comments
@@ -68,7 +69,8 @@ const editPost = async (req, res) => {
         if (!post) {
             return res.status(404).json('cant find post');
         }
-        console.log(post.imageUrl);
+        
+        validateUser(req, res, post.user_id);
 
         if (imageUrl !== post.imageUrl && imageUrl !== undefined && post.imageUrl !== null) {
             if (post.public_id) {
@@ -103,6 +105,8 @@ const deletePost = async (req, res) => {
             return res.status(404).json('cant find post');
         }
         
+        validateUser(req, res, post.user_id);
+ 
         if((post.public_id)) {
         img.deleteImageFromCloudinary(post.public_id);
         } 

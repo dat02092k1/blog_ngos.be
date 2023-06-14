@@ -1,5 +1,6 @@
 const db = require('../models')
-var img = require('../service/imageHandle.js');     
+const img = require('../service/imageHandle.js');     
+const { validateUser } = require('../helpers/validateUser.js');     
 
 const Comment = db.comments
 
@@ -93,11 +94,7 @@ const deleteComment = async (req, res) => {
     }
 }
 
-const validateUser = (req, res, user_id) => {
-    if (user_id !== req.user.id) {
-        return res.status(403).json({ error: 'You are not authorized to take this action' });
-      }
-}
+
 
 module.exports = {
     addComment, getComments, getDetailsComment, editComment, deleteComment
