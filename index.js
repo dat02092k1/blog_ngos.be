@@ -34,7 +34,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // testing api
 app.get('/', (req, res) => {
-    res.json({ message: 'heh api'})
+    const text = "RestAPI for Ngos Blog with: User, Post, Comment, Products";
+    res.send(text);
 })
 
 // port

@@ -1,10 +1,12 @@
+require('dotenv').config();
+
 module.exports = {
-    HOST: 'localhost',
-    USER: 'root',
-    PASSWORD: '',
-    DB: 'node_sequelize_api',
-    port: 3310, 
-    dialect: 'mysql',
+    HOST: process.env.DB_LOCALHOST,
+    USER: process.env.DB_USER,
+    PASSWORD: process.env.DB_PW,
+    DB: process.env.DB_NAME,
+    port: process.env.DB_PORT, 
+    dialect: 'mysql', 
     pool: {
         max: 5,
         min: 0,
