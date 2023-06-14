@@ -30,6 +30,14 @@ const login = async (req, res) => {
     }
 }
 
+const logout = async (req, res) => {
+  try {
+    res.json("log out"); 
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const generateAccessToken = (user) => {
     return jwt.sign(
       {
@@ -41,7 +49,7 @@ const generateAccessToken = (user) => {
     );
   }
 
-  const generateRefreshToken = (user) => {
+const generateRefreshToken = (user) => {
     return jwt.sign(
       {
         id: user.id,
@@ -52,5 +60,5 @@ const generateAccessToken = (user) => {
     );
   }
 module.exports = {
-    login
+    login, logout 
 }
